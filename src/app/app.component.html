@@ -7,8 +7,18 @@
       <li>
         <a routerLink="create">Create</a>
       </li>
-     
+
     </ul>
   </nav>
+  <div class="lds-roller" *ngIf="showLoadingIndicator">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
   <router-outlet></router-outlet>
 </div>

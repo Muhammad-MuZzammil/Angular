@@ -16,6 +16,8 @@ import { ListEmployeesComponent } from './employees/list-employees.component';
 import { CreateEmployeeComponent } from './employees/create-employee.component';
 import { EmployeeDetailsComponent } from './employees/employee-details.component';
 import { EmployeeFilterPipe } from './employees/employee-filter.pipe';
+import { PageNotFoundComponent } from './page-not-found.component';
+import { EmployeeDetailsGuardService } from './employees/employee-details-guard.service';
 
 const appRoutes: Routes = [
   {
@@ -28,7 +30,12 @@ const appRoutes: Routes = [
     component: CreateEmployeeComponent,
     canDeactivate: [CreateEmployeeCanDeactivateGuardService]
   },
-  { path: 'employees/:id', component: EmployeeDetailsComponent },
+  { 
+    path: 'employees/:id',
+     component: EmployeeDetailsComponent,
+     canActivate:[EmployeeDetailsGuardService]
+     },
+  { path: 'notfound', component: PageNotFoundComponent },
   { path: '', redirectTo: '/list', pathMatch: 'full' },
 ]
 
@@ -42,7 +49,8 @@ const appRoutes: Routes = [
     ConfirmEqualValidatorDirective,
     DisplayEmployeeComponent,
     EmployeeDetailsComponent,
-    EmployeeFilterPipe
+    EmployeeFilterPipe,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +59,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
 
   ],
-  providers: [EmployeeService, CreateEmployeeCanDeactivateGuardService, EmployeeListResolverService],
+  providers: [EmployeeService, CreateEmployeeCanDeactivateGuardService, EmployeeListResolverService,EmployeeDetailsGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
