@@ -41,6 +41,7 @@ export class ListEmployeesComponent implements OnInit {
       queryParams: { 'searchTerm': this.searchTerm }
     })
   }
+  
   changeEmployeeName() {
     this.employees[0].name = "Jorden"
     this.filteredEmployees = this.filtereEmployees(this.searchTerm)
