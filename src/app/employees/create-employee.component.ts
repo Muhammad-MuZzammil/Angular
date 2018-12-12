@@ -4,7 +4,7 @@ import { Department } from './../models/department.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-employee',
@@ -14,20 +14,8 @@ import { Router } from '@angular/router';
 export class CreateEmployeeComponent implements OnInit {
   @ViewChild('employeeForm') public createEmployeeForm: NgForm
   photoPreview = false
-  employee: Employee = {
-    id: null,
-    name: null,
-    gender: null,
-    email: null,
-    phoneNumber: null,
-    contactPreference: null,
-    dateOfBirth: null,
-    department: 'select',
-    isActive: null,
-    photoPath: null,
-    // password: null,
-    // confirmPassword: null
-  }
+  employee: Employee
+  panelTitle:string
   datePickerConfig: Partial<BsDatepickerConfig>
   deparmtents: Department[] = [
     { id: 1, name: "Help Desk" },
@@ -38,7 +26,8 @@ export class CreateEmployeeComponent implements OnInit {
   ]
   constructor(
     private _emloyeeService: EmployeeService,
-    private _router: Router
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {
     this.datePickerConfig = Object.assign({},
       {
@@ -51,9 +40,38 @@ export class CreateEmployeeComponent implements OnInit {
     this.photoPreview = !this.photoPreview;
   }
   ngOnInit() {
+    this._route.paramMap.subscribe(parameterMap => {
+      const id = +parameterMap.get('id')
+      this.getEmployee(id)
+    })
+  }
+  getEmployee(id: number) {
+    if (id === 0) {
+      this.employee = {
+        id: null,
+        name: null,
+        gender: null,
+        email: null,
+        phoneNumber: null,
+        contactPreference: null,
+        dateOfBirth: null,
+        department: 'select',
+        isActive: null,
+        photoPath: null,
+        // password: null,
+        // confirmPassword: null
+      }
+      this.createEmployeeForm.reset()
+      this.panelTitle = 'Create Employee'
+    }
+    else {
+      
+      this.panelTitle = 'Edit Employee'
+      this.employee = Object.assign({}, this._emloyeeService.getEmployee(id))
+    }
   }
   saveEmployee(): void {
-    const newEmployee :Employee = Object.assign({},this.employee)
+    const newEmployee: Employee = Object.assign({}, this.employee)
     this._emloyeeService.save(newEmployee)
     this.createEmployeeForm.reset()
     this._router.navigate(['list'])
