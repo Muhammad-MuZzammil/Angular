@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ import { EmployeeDetailsComponent } from './employees/employee-details.component
 import { EmployeeFilterPipe } from './employees/employee-filter.pipe';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { EmployeeDetailsGuardService } from './employees/employee-details-guard.service';
+import { AccordionComponent } from './shared/accordion.component';
 
 const appRoutes: Routes = [
   {
@@ -50,11 +52,13 @@ const appRoutes: Routes = [
     DisplayEmployeeComponent,
     EmployeeDetailsComponent,
     EmployeeFilterPipe,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    AccordionComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(appRoutes),
 

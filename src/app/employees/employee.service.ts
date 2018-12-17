@@ -1,9 +1,13 @@
 import { Employee } from './../models/employee.model';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { delay, catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 @Injectable()
 export class EmployeeService {
+  constructor(private httpClient: HttpClient) {
+
+  }
   private listEmployee: Employee[] = [
     {
       id: 1,
@@ -40,9 +44,18 @@ export class EmployeeService {
     },
   ]
   getEmployees(): Observable<Employee[]> {
-    return of(this.listEmployee).pipe(delay(2000))
-
+    return this.httpClient.get<Employee[]>('http://localhost:3000/employees1')
+        .pipe(catchError(this.handleError));
   }
+  private handleError(errorResponse: HttpErrorResponse) {
+    if (errorResponse.error instanceof ErrorEvent) {
+        console.error('Client Side Error :', errorResponse.error.message);
+    } else {
+        console.error('Server Side Error :', errorResponse);
+    }
+    // return an observable with a meaningful error message to the end user
+    return  throwError('There is a problem with the service We are notified & working on it. Please try again later.');
+}
   getEmployee(id: number): Employee {
     return this.listEmployee.find(e => e.id === id)
   }
@@ -57,6 +70,12 @@ export class EmployeeService {
     else {
       const foundIndex = this.listEmployee.findIndex(e => e.id === employee.id)
       this.listEmployee[foundIndex] = employee;
+    }
+  }
+  deleteEmployee(id: number) {
+    const i = this.listEmployee.findIndex(e => e.id === id)
+    if (i !== -1) {
+      this.listEmployee.splice(i, 1)
     }
   }
 }
