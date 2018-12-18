@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { debug } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,9 +13,9 @@ export class DisplayEmployeeComponent implements OnInit {
   private selectedEmployeeId: number;
   @Input() employee: Employee
   @Input() searchTerm: string;
-  @Output() notifyDelete:EventEmitter<number> = new EventEmitter<number>();
+  @Output() notifyDelete: EventEmitter<number> = new EventEmitter<number>();
   confirmDelete = false;
-  constructor(private _route: ActivatedRoute, private _router: Router,private _employeeService:EmployeeService) { }
+  constructor(private _route: ActivatedRoute, private _router: Router, private _employeeService: EmployeeService) { }
 
   ngOnInit() {
     this.selectedEmployeeId = +this._route.snapshot.paramMap.get('id')
@@ -29,8 +29,10 @@ export class DisplayEmployeeComponent implements OnInit {
     this._router.navigate(['/edit', this.employee.id], {
     })
   }
-  deleteEmployee(){
+  deleteEmployee() {
     this._employeeService.deleteEmployee(this.employee.id)
+      .subscribe(() => console.log(`Employee with Id = ${this.employee.id} deleted`),
+        (err: any) => console.log(err))
     this.notifyDelete.emit(this.employee.id)
   }
 }

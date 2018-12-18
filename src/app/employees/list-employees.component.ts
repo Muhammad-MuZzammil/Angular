@@ -1,6 +1,7 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
+import { ResolvedEmployeeList } from './resolved.employeeList.model';
 
 @Component({
   selector: 'app-list-employees',
@@ -24,13 +25,13 @@ export class ListEmployeesComponent implements OnInit {
       employee.name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1);
   }
   constructor(private _router: Router, private _route: ActivatedRoute) {
-    const resolvedData: string | Employee[] = this._route.snapshot.data['employeeList'];
+    const resolvedEmployeeList: ResolvedEmployeeList = this._route.snapshot.data['employeeList'];
 
     // If the resolver completed without errors resolvedData is an Employee[]
-    if (Array.isArray(resolvedData)) {
-      this.employees = resolvedData;
+    if (resolvedEmployeeList.error ==null) {
+      this.employees = resolvedEmployeeList.employeeList;
     } else {
-      this.error = resolvedData;
+      this.error = resolvedEmployeeList.error;
     }
     this._route.queryParamMap.subscribe(queryParams => {
       if (queryParams.has('searchTerm')) { //has is used to know searchTerm exist or nt it returns boolean

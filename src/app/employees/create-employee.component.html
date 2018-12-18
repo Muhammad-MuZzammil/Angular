@@ -1,6 +1,6 @@
 <!-- #employeeForm template reference variable -->
 <form #employeeForm="ngForm" (ngSubmit)="saveEmployee()">
-  <div class="panel panel-primary">
+  <div class="panel panel-primary" *ngIf="employee">
     <div class="panel-heading">
       <h3 class="panel-title">{{panelTitle}}</h3>
     </div>

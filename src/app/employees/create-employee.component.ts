@@ -15,7 +15,7 @@ export class CreateEmployeeComponent implements OnInit {
   @ViewChild('employeeForm') public createEmployeeForm: NgForm
   photoPreview = false
   employee: Employee
-  panelTitle:string
+  panelTitle: string
   datePickerConfig: Partial<BsDatepickerConfig>
   deparmtents: Department[] = [
     { id: 1, name: "Help Desk" },
@@ -65,15 +65,32 @@ export class CreateEmployeeComponent implements OnInit {
       this.panelTitle = 'Create Employee'
     }
     else {
-      
+      this._emloyeeService.getEmployee(id)
+        .subscribe((employee) => {
+          this.employee = employee
+        },
+          (error: any) => console.log(error))
       this.panelTitle = 'Edit Employee'
-      this.employee = Object.assign({}, this._emloyeeService.getEmployee(id))
     }
   }
   saveEmployee(): void {
-    const newEmployee: Employee = Object.assign({}, this.employee)
-    this._emloyeeService.save(newEmployee)
-    this.createEmployeeForm.reset()
-    this._router.navigate(['list'])
+    if (this.employee.id === null) {
+      this._emloyeeService.addEmployee(this.employee).subscribe((data: Employee) => {
+        console.log(data)
+        this.createEmployeeForm.reset()
+        this._router.navigate(['list'])
+      },
+        (error: any) => console.log(error))
+    }
+    else {
+      this._emloyeeService.updateEmployee(this.employee)
+        .subscribe(() => {
+          this.createEmployeeForm.reset()
+          this._router.navigate(['list'])
+        },
+          (err: any) => {
+            console.log(err)
+          })
+    }
   }
 }

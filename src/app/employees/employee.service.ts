@@ -2,12 +2,14 @@ import { Employee } from './../models/employee.model';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, catchError } from 'rxjs/operators';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 @Injectable()
 export class EmployeeService {
   constructor(private httpClient: HttpClient) {
 
   }
+
+  baseUrl = 'http://localhost:3000/employees'
   private listEmployee: Employee[] = [
     {
       id: 1,
@@ -43,39 +45,46 @@ export class EmployeeService {
       photoPath: '../../assets/images/john.png'
     },
   ]
+
   getEmployees(): Observable<Employee[]> {
-    return this.httpClient.get<Employee[]>('http://localhost:3000/employees1')
-        .pipe(catchError(this.handleError));
+    return this.httpClient.get<Employee[]>(this.baseUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  getEmployee(id: number): Observable<Employee> {
+    return this.httpClient.get<Employee>(`${this.baseUrl}/${id}`)
+      .pipe(catchError(this.handleError))
+  }
+  addEmployee(employee: Employee): Observable<Employee> {
+    return this.httpClient.post<Employee>(this.baseUrl, employee, {
+      headers: new HttpHeaders({
+        'content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
+
+  updateEmployee(employee: Employee): Observable<void> {
+    return this.httpClient.put<void>(`${this.baseUrl}/${employee.id}`, employee, {
+      headers: new HttpHeaders({
+        'content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
+
+  deleteEmployee(id: number):Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      )
   }
   private handleError(errorResponse: HttpErrorResponse) {
     if (errorResponse.error instanceof ErrorEvent) {
-        console.error('Client Side Error :', errorResponse.error.message);
+      console.error('Client Side Error :', errorResponse.error.message);
     } else {
-        console.error('Server Side Error :', errorResponse);
+      console.error('Server Side Error :', errorResponse);
     }
     // return an observable with a meaningful error message to the end user
-    return  throwError('There is a problem with the service We are notified & working on it. Please try again later.');
-}
-  getEmployee(id: number): Employee {
-    return this.listEmployee.find(e => e.id === id)
-  }
-  save(employee: Employee) {
-    if (employee.id === null) {
-      const maxId = this.listEmployee.reduce(function (e1, e2) {
-        return (e1 > e2) ? e1 : e2
-      }).id;
-      employee.id = maxId + 1
-      this.listEmployee.push(employee);
-    }
-    else {
-      const foundIndex = this.listEmployee.findIndex(e => e.id === employee.id)
-      this.listEmployee[foundIndex] = employee;
-    }
-  }
-  deleteEmployee(id: number) {
-    const i = this.listEmployee.findIndex(e => e.id === id)
-    if (i !== -1) {
-      this.listEmployee.splice(i, 1)
-    }
+    return throwError('There is a problem with the service We are notified & working on it. Please try again later.');
   }
 }
+
