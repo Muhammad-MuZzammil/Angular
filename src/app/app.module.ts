@@ -53,7 +53,8 @@ const appRoutes: Routes = [
     EmployeeDetailsComponent,
     EmployeeFilterPipe,
     PageNotFoundComponent,
-    AccordionComponent
+    AccordionComponent,
+    
   ],
   imports: [
     BrowserModule,
