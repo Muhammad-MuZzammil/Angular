@@ -45,6 +45,7 @@ export class CreateEmployeeComponent implements OnInit {
       this.getEmployee(id)
     })
   }
+  
   getEmployee(id: number) {
     if (id === 0) {
       this.employee = {
