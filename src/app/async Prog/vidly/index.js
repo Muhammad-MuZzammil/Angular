@@ -1,3 +1,6 @@
+const debug = require('debug')('app:startup');
+const dbDebug = require('debug')('app:db')
+const config = require('config')
 const Joi = require("joi");
 const helmet = require('helmet')
 const morgan = require('morgan')
@@ -5,13 +8,28 @@ const express = require("express");
 const logger = require('./logger')
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', './views')
+
 app.use(express.json());
-app.use(express.urlencoded({extended:true})) // true if u want to work with arrays and complex objects
+app.use(express.urlencoded({ extended: true })) // true if u want to work with arrays and complex objects
 app.use(helmet())
-app.use(morgan('tiny'))
 app.use(express.static('public'))
+
+
+if (app.get('env') === 'development') {
+  app.use(morgan('tiny'))
+  debug("Morgan enabled...")
+}
+
+dbDebug('db connected')
+// console.log("Application Name: " + config.get('name'));
+// console.log("Mail Server: " + config.get('mail.host'))
+// console.log("Mail Password: " + config.get('mail.password'))
 // app.use(logger.log)
 // app.use(logger.auth)
+
+
 const genres = [
   { id: 1, name: "Horror" },
   { id: 2, name: "Action" },
@@ -19,7 +37,7 @@ const genres = [
 ];
 
 app.get("/", (req, res) => {
-  res.send("Saad");
+  res.render('index', { title: 'Express App', message: 'Hello WOrld' })
 });
 
 app.get("/api/genres", (req, res) => {
@@ -33,7 +51,7 @@ app.get("/api/genres/:id", (req, res) => {
 });
 
 app.post("/api/genres", (req, res) => {
-  
+
   let { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -64,7 +82,7 @@ app.delete("/api/genres/:id", (req, res) => {
   if (!movie) return res.status(404).send("Record not found");
 
   let index = genres.indexOf(movie);
-   genres.splice(index, 1);
+  genres.splice(index, 1);
   res.send(movie);
 });
 
