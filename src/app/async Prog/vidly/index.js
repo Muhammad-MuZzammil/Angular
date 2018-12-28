@@ -1,9 +1,17 @@
 const Joi = require("joi");
+const helmet = require('helmet')
+const morgan = require('morgan')
 const express = require("express");
+const logger = require('./logger')
 const app = express();
 
 app.use(express.json());
-
+app.use(express.urlencoded({extended:true})) // true if u want to work with arrays and complex objects
+app.use(helmet())
+app.use(morgan('tiny'))
+app.use(express.static('public'))
+// app.use(logger.log)
+// app.use(logger.auth)
 const genres = [
   { id: 1, name: "Horror" },
   { id: 2, name: "Action" },
