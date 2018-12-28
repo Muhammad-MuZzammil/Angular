@@ -1,9 +1,17 @@
 <!-- #employeeForm template reference variable -->
 <form #employeeForm="ngForm" (ngSubmit)="saveEmployee()">
+<<<<<<< HEAD
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">Create Employee</h3>
     </div>
+=======
+  <div class="panel panel-primary" *ngIf="employee">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{panelTitle}}</h3>
+    </div>
+    
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
     <div class="panel-body">
       <div class="form-group" [class.has-error]="name.invalid && name.touched" [class.has-success]="name.valid">
         <label for="name" class="control-label">Name</label>
@@ -12,14 +20,22 @@
       </div>
       <div class="form-group" [class.has-error]="email.invalid ">
         <label for="email " class="control-label">Email</label>
+<<<<<<< HEAD
         <input type="text" [required]="contactPreference.value == 'email'" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+=======
+        <input type="text" [required]="contactPreference.value == 'Email'" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
           id="email" name="email" [(ngModel)]="employee.email" class="form-control" #email="ngModel">
         <span class="help-block" *ngIf="email.errors?.required ">Email is required</span>
         <span class="help-block" *ngIf="email.errors?.pattern && email.touched">Email is Invalid</span>
       </div>
       <div class="form-group" [class.has-error]="phoneNumber.invalid">
         <label for="phoneNumber" class="control-label">Phone Number</label>
+<<<<<<< HEAD
         <input type="text" id="phoneNumber" #phoneNumber="ngModel" [required]="contactPreference.value == 'phone'" name="phoneNumber"
+=======
+        <input type="text" id="phoneNumber" #phoneNumber="ngModel" [required]="contactPreference.value == 'Phone'" name="phoneNumber"
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
           [(ngModel)]="employee.phoneNumber" class="form-control">
         <span class="help-block" *ngIf="phoneNumber.errors?.required">Phone Number is required</span>
       </div>
@@ -28,10 +44,17 @@
         <label class="control-label">Contact Preference</label>
         <div class="form-control">
           <label class="radio-inline">
+<<<<<<< HEAD
             <input type="radio" required #contactPreference="ngModel" name="contactPreference" value="email" [(ngModel)]="employee.contactPreference"> Email
           </label>
           <label class="radio-inline">
             <input type="radio" required #contactPreference="ngModel" name="contactPreference" value="phone" [(ngModel)]="employee.contactPreference"> Phone Number
+=======
+            <input type="radio" required #contactPreference="ngModel" name="contactPreference" value="Email" [(ngModel)]="employee.contactPreference"> Email
+          </label>
+          <label class="radio-inline">
+            <input type="radio" required #contactPreference="ngModel" name="contactPreference" value="Phone" [(ngModel)]="employee.contactPreference"> Phone Number
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
           </label>
         </div>
         <span class="help-block" *ngIf="contactPreference.touched && contactPreference.invalid">Contact Preference is required</span>
@@ -41,10 +64,17 @@
         <label class="control-label">Gender</label>
         <div class="form-control">
           <label class="radio-inline">
+<<<<<<< HEAD
             <input type="radio" required #gender="ngModel" value="male" name="gender" [(ngModel)]="employee.gender"> Male
           </label>
           <label class="radio-inline">
             <input type="radio" required #gender="ngModel" value="female" name="gender" [(ngModel)]="employee.gender"> Female
+=======
+            <input type="radio" required #gender="ngModel" value="Male" name="gender" [(ngModel)]="employee.gender"> Male
+          </label>
+          <label class="radio-inline">
+            <input type="radio" required #gender="ngModel" value="Female" name="gender" [(ngModel)]="employee.gender"> Female
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
           </label>
         </div>
         <span class="help-block" *ngIf="gender.touched && gender.invalid">Gender is required</span>
@@ -81,10 +111,17 @@
       </div>
 
       <div class="form-group">
+<<<<<<< HEAD
         <img [src]="employee.photoPath" alt="" width="200px" height="200px" *ngIf="photoPreview">
       </div>
       <div class="form-group">
         <button class="btn btn-primary" type="button" (click)="togglePhotoPreview()">
+=======
+        <img [src]="employee.photoPath" alt="" width="200px" height="200px" *ngIf="photoPreview && employee.photoPath !== '' && employee.photoPath !== null">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="button" (click)="togglePhotoPreview()" *ngIf="employee.photoPath !== '' && employee.photoPath !== null">
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
           {{photoPreview ? "Hide ": "Show"}} Preview
         </button>
       </div>
@@ -116,4 +153,8 @@
 
 {{employeeForm.value | json}}
 <br/>
+<<<<<<< HEAD
 <br/> {{employee | json}}
+=======
+<br/> {{employee | json}}
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d

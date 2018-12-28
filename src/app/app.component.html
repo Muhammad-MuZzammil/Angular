@@ -5,9 +5,29 @@
         <a routerLink="list">List</a>
       </li>
       <li>
+<<<<<<< HEAD
         <a routerLink="create">Create</a>
       </li>
     </ul>
   </nav>
   <router-outlet></router-outlet>
 </div>
+=======
+        <a routerLink="edit/0">Create</a>
+      </li>
+
+    </ul>
+  </nav>
+  <div class="lds-roller" *ngIf="showLoadingIndicator">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d

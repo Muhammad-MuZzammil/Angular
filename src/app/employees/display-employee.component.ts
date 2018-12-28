@@ -1,6 +1,14 @@
+<<<<<<< HEAD
 import { Component, OnInit, Input } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { debug } from 'util';
+=======
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Employee } from '../models/employee.model';
+import { debug } from 'util';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EmployeeService } from './employee.service';
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
 
 @Component({
   selector: 'app-display-employee',
@@ -8,9 +16,36 @@ import { debug } from 'util';
   styleUrls: ['./display-employee.component.css']
 })
 export class DisplayEmployeeComponent implements OnInit {
+<<<<<<< HEAD
   @Input() employee: Employee
   constructor() { }
 
   ngOnInit() {
+=======
+  private selectedEmployeeId: number;
+  @Input() employee: Employee
+  @Input() searchTerm: string;
+  @Output() notifyDelete: EventEmitter<number> = new EventEmitter<number>();
+  confirmDelete = false;
+  constructor(private _route: ActivatedRoute, private _router: Router, private _employeeService: EmployeeService) { }
+
+  ngOnInit() {
+    this.selectedEmployeeId = +this._route.snapshot.paramMap.get('id')
+  }
+  viewEmployee() {
+    this._router.navigate(['/employees', this.employee.id], {
+      queryParams: { 'searchTerm': this.searchTerm }
+    })
+  }
+  editEmployee() {
+    this._router.navigate(['/edit', this.employee.id], {
+    })
+  }
+  deleteEmployee() {
+    this._employeeService.deleteEmployee(this.employee.id)
+      .subscribe(() => console.log(`Employee with Id = ${this.employee.id} deleted`),
+        (err: any) => console.log(err))
+    this.notifyDelete.emit(this.employee.id)
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
   }
 }

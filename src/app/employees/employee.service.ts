@@ -1,7 +1,20 @@
 import { Employee } from './../models/employee.model';
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 @Injectable()
 export class EmployeeService {
+=======
+import { Observable, of, throwError } from 'rxjs';
+import { delay, catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
+@Injectable()
+export class EmployeeService {
+  constructor(private httpClient: HttpClient) {
+
+  }
+
+  baseUrl = 'http://localhost:3000/employees'
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
   private listEmployee: Employee[] = [
     {
       id: 1,
@@ -37,6 +50,7 @@ export class EmployeeService {
       photoPath: '../../assets/images/john.png'
     },
   ]
+<<<<<<< HEAD
   getEmployee(): Employee[] {
     return this.listEmployee
   }
@@ -44,3 +58,48 @@ export class EmployeeService {
     this.listEmployee.push(employee);
   }
 }
+=======
+
+  getEmployees(): Observable<Employee[]> {
+    return this.httpClient.get<Employee[]>(this.baseUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  getEmployee(id: number): Observable<Employee> {
+    return this.httpClient.get<Employee>(`${this.baseUrl}/${id}`)
+      .pipe(catchError(this.handleError))
+  }
+  addEmployee(employee: Employee): Observable<Employee> {
+    return this.httpClient.post<Employee>(this.baseUrl, employee, {
+      headers: new HttpHeaders({
+        'content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
+
+  updateEmployee(employee: Employee): Observable<void> {
+    return this.httpClient.put<void>(`${this.baseUrl}/${employee.id}`, employee, {
+      headers: new HttpHeaders({
+        'content-Type': 'application/json'
+      })
+    }).pipe(catchError(this.handleError))
+  }
+
+  deleteEmployee(id: number):Observable<void> {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+  private handleError(errorResponse: HttpErrorResponse) {
+    if (errorResponse.error instanceof ErrorEvent) {
+      console.error('Client Side Error :', errorResponse.error.message);
+    } else {
+      console.error('Server Side Error :', errorResponse);
+    }
+    // return an observable with a meaningful error message to the end user
+    return throwError('There is a problem with the service We are notified & working on it. Please try again later.');
+  }
+}
+
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d

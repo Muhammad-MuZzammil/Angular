@@ -1,4 +1,26 @@
+<<<<<<< HEAD
 <div *ngFor="let employee of employees">
   <app-display-employee [employee]="employee" #childComponent>
   </app-display-employee>
 </div>
+=======
+<div class="form-group">
+  <input type="text" class="form-control" placeholder="Search by Name" [(ngModel)]="searchTerm">
+</div>
+<div *ngFor="let employee of filteredEmployees ">
+  <app-display-employee [employee]="employee" [searchTerm]="searchTerm" (notifyDelete)="onDeleteNotification($event)">
+  </app-display-employee>
+</div>
+
+<!-- alternate way of output -->
+<!-- <h1 #h1Var>
+
+</h1>
+<div (click)="#h1Var.innerHTML='childComponent.employee.name +' '+ childComponent.employee.gender'">
+  <app-display-employee [employee]="employee" #childComponent></app-display-employee>
+</div> -->
+
+<div *ngIf="error">
+  {{error}}
+</div>
+>>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
