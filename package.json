@@ -23,10 +23,7 @@
     "bootstrap": "^3.3.7",
     "core-js": "^2.5.4",
     "jquery": "^3.2.1",
-<<<<<<< HEAD
-=======
     "mongoose": "^5.4.1",
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
     "ngx-bootstrap": "^3.0.1",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"

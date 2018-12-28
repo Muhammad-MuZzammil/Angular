@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import { Router, NavigationStart, NavigationEnd, Event, NavigationCancel, NavigationError } from '@angular/router';
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
 import { Component } from '@angular/core';
 
 @Component({
@@ -10,9 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-<<<<<<< HEAD
-  title = 'AngularCrud';
-=======
   showLoadingIndicator = true
   title = 'AngularCrud';
   constructor(private _router: Router) {
@@ -25,5 +19,4 @@ export class AppComponent {
       }
     })
   }
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
 }

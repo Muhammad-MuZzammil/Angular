@@ -1,28 +1,13 @@
-<<<<<<< HEAD
-import { EmployeeService } from './employee.service';
-import { Component, OnInit } from '@angular/core';
-import { Employee } from '../models/employee.model';
-=======
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { ResolvedEmployeeList } from './resolved.employeeList.model';
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
 
 @Component({
   selector: 'app-list-employees',
   templateUrl: './list-employees.component.html',
   styleUrls: ['./list-employees.component.css']
 })
-<<<<<<< HEAD
-export class
-  ListEmployeesComponent implements OnInit {
-  employees: Employee[];
-  constructor(private _employeeService: EmployeeService) { }
-
-  ngOnInit() {
-    this.employees = this._employeeService.getEmployee()
-=======
 export class ListEmployeesComponent implements OnInit {
   employees: Employee[];
   error: string
@@ -66,7 +51,6 @@ export class ListEmployeesComponent implements OnInit {
     if (i !== -1) {
       this.filteredEmployees.splice(i, 1)
     }
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
   }
 
 }

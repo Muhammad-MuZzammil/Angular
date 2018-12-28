@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-import { Component, OnInit, Input } from '@angular/core';
-import { Employee } from '../models/employee.model';
-import { debug } from 'util';
-=======
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Employee } from '../models/employee.model';
 import { debug } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from './employee.service';
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
 
 @Component({
   selector: 'app-display-employee',
@@ -16,12 +10,6 @@ import { EmployeeService } from './employee.service';
   styleUrls: ['./display-employee.component.css']
 })
 export class DisplayEmployeeComponent implements OnInit {
-<<<<<<< HEAD
-  @Input() employee: Employee
-  constructor() { }
-
-  ngOnInit() {
-=======
   private selectedEmployeeId: number;
   @Input() employee: Employee
   @Input() searchTerm: string;
@@ -46,6 +34,5 @@ export class DisplayEmployeeComponent implements OnInit {
       .subscribe(() => console.log(`Employee with Id = ${this.employee.id} deleted`),
         (err: any) => console.log(err))
     this.notifyDelete.emit(this.employee.id)
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
   }
 }

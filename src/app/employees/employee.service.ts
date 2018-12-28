@@ -1,9 +1,5 @@
 import { Employee } from './../models/employee.model';
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
-@Injectable()
-export class EmployeeService {
-=======
 import { Observable, of, throwError } from 'rxjs';
 import { delay, catchError } from 'rxjs/operators';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
@@ -14,7 +10,6 @@ export class EmployeeService {
   }
 
   baseUrl = 'http://localhost:3000/employees'
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
   private listEmployee: Employee[] = [
     {
       id: 1,
@@ -50,15 +45,6 @@ export class EmployeeService {
       photoPath: '../../assets/images/john.png'
     },
   ]
-<<<<<<< HEAD
-  getEmployee(): Employee[] {
-    return this.listEmployee
-  }
-  save(employee: Employee) {
-    this.listEmployee.push(employee);
-  }
-}
-=======
 
   getEmployees(): Observable<Employee[]> {
     return this.httpClient.get<Employee[]>(this.baseUrl)
@@ -102,4 +88,3 @@ export class EmployeeService {
   }
 }
 
->>>>>>> c8dcffd66ece7168d4bd22500fa85f63747c699d
