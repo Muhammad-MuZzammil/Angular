@@ -1,34 +1,35 @@
-const debug = require('debug')('app:startup');
-const dbDebug = require('debug')('app:db')
-const config = require('config')
+const debug = require("debug")("app:startup");
+const dbDebug = require("debug")("app:db");
+const config = require("config");
 const Joi = require("joi");
-const helmet = require('helmet')
-const morgan = require('morgan')
+const helmet = require("helmet");
+const morgan = require("morgan");
 const express = require("express");
-const logger = require('./logger')
+const logger = require("./logger");
 const app = express();
 
-app.set('view engine', 'pug');
-app.set('views', './views')
+app.set("view engine", "pug");
+app.set("views", "./views");
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })) // true if u want to work with arrays and complex objects
-app.use(helmet())
-app.use(express.static('public'))
-
-
-if (app.get('env') === 'development') {
-  app.use(morgan('tiny'))
-  debug("Morgan enabled...")
+app.use(express.urlencoded({ extended: true })); // true if u want to work with arrays and complex objects
+app.use(helmet());
+app.use(express.static("public"));
+if (app.get("env") === "development") {
+  app.use(morgan("tiny"));
+  debug("Morgan enabled...");
 }
+dbDebug("db connected");
 
-dbDebug('db connected')
 // console.log("Application Name: " + config.get('name'));
-// console.log("Mail Server: " + config.get('mail.host'))
-// console.log("Mail Password: " + config.get('mail.password'))
-// app.use(logger.log)
-// app.use(logger.auth)
 
+// console.log("Mail Server: " + config.get('mail.host'))
+
+// console.log("Mail Password: " + config.get('mail.password'))
+
+// app.use(logger.log)
+
+// app.use(logger.auth)
 
 const genres = [
   { id: 1, name: "Horror" },
@@ -37,7 +38,7 @@ const genres = [
 ];
 
 app.get("/", (req, res) => {
-  res.render('index', { title: 'Express App', message: 'Hello WOrld' })
+  res.render("index", { title: "Express App", message: "Hello WOrld" });
 });
 
 app.get("/api/genres", (req, res) => {
@@ -51,14 +52,13 @@ app.get("/api/genres/:id", (req, res) => {
 });
 
 app.post("/api/genres", (req, res) => {
-
   let { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
   let movie = {
     id: genres.length + 1,
     name: req.body.name
   };
+
   genres.push(movie);
   res.send(genres);
 });
@@ -67,11 +67,9 @@ app.put("/api/genres/:id", (req, res) => {
   // is record exist
   const movie = genres.find(m => m.id === parseInt(req.params.id));
   if (!movie) return res.status(404).send("Record not found");
-
   // is record valid
   let { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
   // if record exist and valid then update result
   movie.name = req.body.name;
   res.send(movie);
@@ -80,7 +78,6 @@ app.put("/api/genres/:id", (req, res) => {
 app.delete("/api/genres/:id", (req, res) => {
   const movie = genres.find(m => m.id === parseInt(req.params.id));
   if (!movie) return res.status(404).send("Record not found");
-
   let index = genres.indexOf(movie);
   genres.splice(index, 1);
   res.send(movie);
@@ -94,8 +91,8 @@ function validateGenre(genre) {
   };
   return Joi.validate(genre, schema);
 }
-
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
   console.log(`Listening on port ${port} ...`);
 });
