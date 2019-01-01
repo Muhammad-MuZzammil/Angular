@@ -7,6 +7,11 @@ const logger = require("./middleware/logger");
 const app = express();
 const genres = require("./routes/genres");
 const home = require("./routes/home");
+const mongoose = require("mongoose");
+
+mongoose.connect("mongodb://localhost/genres")
+.then(()=>console.log("Connected to MongoDB..."))
+.catch(err=>console.log("Connection failed...",err.message));
 
 app.set("view engine", "pug");
 app.set("views", "./views");

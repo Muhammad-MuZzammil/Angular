@@ -5,7 +5,7 @@ mongoose
   .then(() => console.log("Connected to mongoDB..."))
   .catch(err => console.error("Could not connect to mongoDB", err));
 
-const courseSchema = mongoose.Schema({
+const courseSchema = new mongoose.Schema({
   name: String,
   author: String,
   tags: [String],
@@ -17,9 +17,17 @@ const courseSchema = mongoose.Schema({
 const Course = mongoose.model("Course", courseSchema);
 
 async function getCourse() {
-  const courses = await Course.find()
-    .sort({ name: 1 })
-    .select({ name: 1, author: 1 });
+  return await Course.find({
+    isPublished: true
+    // tags: { $in: ["frontend", "backend"] }
+  })
+    .or([{ price: { $gte: 15 } }, { name: /.*by.*/ }])
+    // .or([{ tags: "frontend" },{tags:'backend'}])
+    .sort("-price")
+    .select("name author price");
+}
+async function run() {
+  const courses = await getCourse();
   console.log(courses);
 }
-getCourse();
+run();
