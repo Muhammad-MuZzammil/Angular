@@ -7,11 +7,13 @@ const logger = require("./middleware/logger");
 const app = express();
 const genres = require("./routes/genres");
 const home = require("./routes/home");
+const customers = require('./routes/customer')
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/genres")
-.then(()=>console.log("Connected to MongoDB..."))
-.catch(err=>console.log("Connection failed...",err.message));
+mongoose
+  .connect("mongodb://localhost/vidly")
+  .then(() => console.log("Connected to MongoDB..."))
+  .catch(err => console.error("Connection failed...", err.message));
 
 app.set("view engine", "pug");
 app.set("views", "./views");
@@ -22,6 +24,7 @@ app.use(helmet());
 app.use(express.static("public"));
 
 app.use("/api/genres", genres);
+app.use('/api/customers',customers)
 app.use("/", home);
 
 if (app.get("env") === "development") {
