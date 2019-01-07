@@ -36,8 +36,8 @@ function validateMovie(movie) {
       .min(5)
       .max(50)
       .required(),
-    // genreId: Joi.string().required(),
-    genre: Joi.string().required(),
+    genreId: Joi.string().required(),
+    // genre: Joi.string().required(),
 
     numberInStock: Joi.number()
       .min(0)
@@ -49,4 +49,5 @@ function validateMovie(movie) {
   return Joi.validate(movie, schema);
 }
 
-(exports.validate = validateMovie), (exports.Movie = Movie);
+exports.validate = validateMovie,
+exports.Movie = Movie;
