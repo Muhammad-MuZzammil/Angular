@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express();
+const auth = require('../middleware/auth')
 const { Customer, validate } = require("../models/customer"); // {Customer} is equivalent to Customer.Customer
 //{validate} is equivalent to validate.validate
 
@@ -8,7 +9,7 @@ router.get("/", async (req, res) => {
   res.send(customers);
 });
 
-router.post("/", async (req, res) => {
+router.post("/",auth, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(404).send(error.details[0].message);
 
