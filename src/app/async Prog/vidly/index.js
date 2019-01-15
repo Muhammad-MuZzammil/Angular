@@ -1,12 +1,15 @@
+require("express-async-errors"); // redirect to error middleware
 const debug = require("debug")("app:startup");
-const config = require("config");
+const winston = require("winston");
+require('winston-mongodb')
+const config = require("config"); // working with environment variable
 const helmet = require("helmet");
 const morgan = require("morgan");
 const express = require("express");
 const logger = require("./middleware/logger");
 const app = express();
 const Joi = require("joi");
-Joi.objectId = require("joi-objectid")(Joi);
+Joi.objectId = require("joi-objectid")(Joi); // working with objectID
 const genres = require("./routes/genres");
 const home = require("./routes/home");
 const customers = require("./routes/customer");
@@ -14,11 +17,24 @@ const movies = require("./routes/movies");
 const users = require("./routes/users");
 const rentals = require("./routes/rentals");
 const auth = require("./routes/auth");
+const error = require("./middleware/error");
 const mongoose = require("mongoose");
 
+process.on('uncaughtException',(ex)=>{
+  console.log(ex);
+  winston.error(ex.message,ex);
+})
+
+winston.add(winston.transports.File, { filename: "logfile.log" });
+winston.add(winston.transports.MongoDB,{ 
+  db:'mongodb://localhost/vidly',
+  level:'info'
+})
+
+throw new Error('Something failed during startups')
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
-  process.exit(1)
+  process.exit(1);
 }
 
 mongoose
@@ -41,6 +57,7 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 app.use("/api/auth", auth);
 app.use("/", home);
+app.use(error);
 
 if (app.get("env") === "development") {
   app.use(morgan("tiny"));
