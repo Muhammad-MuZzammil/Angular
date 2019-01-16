@@ -20,18 +20,35 @@ const auth = require("./routes/auth");
 const error = require("./middleware/error");
 const mongoose = require("mongoose");
 
-process.on('uncaughtException',(ex)=>{
-  console.log(ex);
-  winston.error(ex.message,ex);
+// process.on('uncaughtException', (ex) => { // uncaught exception when catch not defined
+//   console.log('WE GOT AN UNCAUGHT EXCEPTION');
+//   winston.error(ex.message, ex);
+//   process.exit(1)
+// })
+
+winston.handleExceptions(new winston.transports.File({ filename: 'uncaughtExceptions.log' })) //same as line 23 and 36
+
+// process.on('unhandledRejection', (ex) => { // uncaught promise rejection when catch not defined e.g line 45
+//   console.log("WE GOT AN UNCAUGHT REJECTION");
+//   winston.error(ex.message, ex)
+//   process.exit(1)
+// })
+process.on('unhandledRejection', (ex) => {
+  throw ex
 })
 
 winston.add(winston.transports.File, { filename: "logfile.log" });
-winston.add(winston.transports.MongoDB,{ 
-  db:'mongodb://localhost/vidly',
-  level:'info'
+winston.add(winston.transports.MongoDB, {
+  db: 'mongodb://localhost/vidly',
+  level: 'info'
 })
 
-throw new Error('Something failed during startups')
+// throw new Error('Something failed during startups')  // uncaughtException
+
+const p = Promise.reject(new Error('Something failed miserably')) // un handled promise rejection
+p.then(() => console.log("Done"))
+
+
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
