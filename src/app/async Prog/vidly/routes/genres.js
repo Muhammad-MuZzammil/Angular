@@ -13,7 +13,7 @@ const { Genre, validate } = require("../models/genres"); // {Genre} is equivalen
 //   })
 // );
 router.get("/",async (req, res) => {
-  throw new Error('Could not get the genres.')
+  // throw new Error('Could not get the genres.')
     const genres = await Genre.find().sort("name");
     res.send(genres);
   });
