@@ -1,7 +1,7 @@
 import { EmployeeService } from './employee.service';
 import { Employee } from './../models/employee.model';
 import { Department } from './../models/department.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -45,7 +45,7 @@ export class CreateEmployeeComponent implements OnInit {
       this.getEmployee(id)
     })
   }
-  
+ 
   getEmployee(id: number) {
     if (id === 0) {
       this.employee = {
